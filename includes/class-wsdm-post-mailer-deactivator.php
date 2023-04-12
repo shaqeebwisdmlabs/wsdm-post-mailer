@@ -20,7 +20,8 @@
  * @subpackage Wsdm_Post_Mailer/includes
  * @author     Shaqeeb Akhtar <shaqeeb.akhtar@wisdmlabs.com>
  */
-class Wsdm_Post_Mailer_Deactivator {
+class Wsdm_Post_Mailer_Deactivator
+{
 
 	/**
 	 * Short Description. (use period)
@@ -29,8 +30,11 @@ class Wsdm_Post_Mailer_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
-
+	public static function deactivate()
+	{
+		$timestamp = wp_next_scheduled('wsdm_daily_post_email_cron');
+		if ($timestamp) {
+			wp_unschedule_event($timestamp, 'wsdm_daily_post_email_cron');
+		}
 	}
-
 }

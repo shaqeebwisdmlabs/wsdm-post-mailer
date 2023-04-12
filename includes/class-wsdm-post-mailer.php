@@ -27,7 +27,8 @@
  * @subpackage Wsdm_Post_Mailer/includes
  * @author     Shaqeeb Akhtar <shaqeeb.akhtar@wisdmlabs.com>
  */
-class Wsdm_Post_Mailer {
+class Wsdm_Post_Mailer
+{
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -66,8 +67,9 @@ class Wsdm_Post_Mailer {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
-		if ( defined( 'WSDM_POST_MAILER_VERSION' ) ) {
+	public function __construct()
+	{
+		if (defined('WSDM_POST_MAILER_VERSION')) {
 			$this->version = WSDM_POST_MAILER_VERSION;
 		} else {
 			$this->version = '1.0.0';
@@ -78,7 +80,6 @@ class Wsdm_Post_Mailer {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -97,33 +98,33 @@ class Wsdm_Post_Mailer {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function load_dependencies()
+	{
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsdm-post-mailer-loader.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-wsdm-post-mailer-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsdm-post-mailer-i18n.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-wsdm-post-mailer-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wsdm-post-mailer-admin.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-wsdm-post-mailer-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wsdm-post-mailer-public.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-wsdm-post-mailer-public.php';
 
 		$this->loader = new Wsdm_Post_Mailer_Loader();
-
 	}
 
 	/**
@@ -135,12 +136,12 @@ class Wsdm_Post_Mailer {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale() {
+	private function set_locale()
+	{
 
 		$plugin_i18n = new Wsdm_Post_Mailer_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 	}
 
 	/**
@@ -150,12 +151,18 @@ class Wsdm_Post_Mailer {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_hooks()
+	{
 
-		$plugin_admin = new Wsdm_Post_Mailer_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wsdm_Post_Mailer_Admin($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+
+		// register post mailer admin menu
+		$this->loader->add_action('admin_menu', $plugin_admin, 'wsdm_register_menu');
+		$this->loader->add_action('init', $plugin_admin, 'wsdm_daily_post_email');
+		// $this->loader->add_action('wsdm_daily_post_email_cron', $plugin_admin, 'wsdm_daily_post_email');
 
 	}
 
@@ -166,13 +173,13 @@ class Wsdm_Post_Mailer {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks()
+	{
 
-		$plugin_public = new Wsdm_Post_Mailer_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wsdm_Post_Mailer_Public($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 	}
 
 	/**
@@ -180,7 +187,8 @@ class Wsdm_Post_Mailer {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->loader->run();
 	}
 
@@ -191,7 +199,8 @@ class Wsdm_Post_Mailer {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name()
+	{
 		return $this->plugin_name;
 	}
 
@@ -201,7 +210,8 @@ class Wsdm_Post_Mailer {
 	 * @since     1.0.0
 	 * @return    Wsdm_Post_Mailer_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader()
+	{
 		return $this->loader;
 	}
 
@@ -211,8 +221,8 @@ class Wsdm_Post_Mailer {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version()
+	{
 		return $this->version;
 	}
-
 }

@@ -20,7 +20,8 @@
  * @subpackage Wsdm_Post_Mailer/includes
  * @author     Shaqeeb Akhtar <shaqeeb.akhtar@wisdmlabs.com>
  */
-class Wsdm_Post_Mailer_Activator {
+class Wsdm_Post_Mailer_Activator
+{
 
 	/**
 	 * Short Description. (use period)
@@ -29,8 +30,10 @@ class Wsdm_Post_Mailer_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function activate() {
-
+	public static function activate()
+	{
+		// if (!wp_next_scheduled('wsdm_daily_post_email_cron')) {
+		// 	wp_schedule_event(time(), 'daily', 'wsdm_daily_post_email_cron');
+		// }
 	}
-
 }
