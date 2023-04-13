@@ -101,16 +101,6 @@ class Wsdm_Post_Mailer_Admin
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wsdm-post-mailer-admin.js', array('jquery'), $this->version, false);
 	}
 
-	public function wsdm_register_menu()
-	{
-		add_menu_page("Post Mailer", "Post Mailer", "manage_options", "wsdm-post-mailer", array($this, "wsdm_post_mailer"), "dashicons-email-alt", 6);
-	}
-
-	public function wsdm_post_mailer()
-	{
-		require_once 'partials/wsdm-post-mailer-admin-display.php';
-	}
-
 	public function wsdm_daily_post_email()
 	{
 		$headers = array(
