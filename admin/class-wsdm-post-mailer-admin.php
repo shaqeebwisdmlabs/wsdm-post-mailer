@@ -131,11 +131,11 @@ class Wsdm_Post_Mailer_Admin
 			$message .= 'Meta Title: ' . get_post_meta(get_the_ID(), '_yoast_wpseo_title', true) . "\n";
 			$message .= 'Meta Description: ' . get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true) . "\n";
 			$message .= 'Meta Keywords: ' . get_post_meta(get_the_ID(), '_yoast_wpseo_focuskw', true) . "\n";
+			$message .= 'Page Speed: ' . $this->wsdm_page_speed_score(get_permalink()) . "\n";
 		}
 
-
 		// send email
-		$sent = wp_mail($admin_email, $subject, $message, $headers);
+		wp_mail($admin_email, $subject, $message, $headers);
 	}
 
 	public function wsdm_page_speed_score($page_url)
@@ -147,9 +147,9 @@ class Wsdm_Post_Mailer_Admin
 		$response = wp_remote_get($api_url);
 
 		if (is_wp_error($response)) {
-			$error_message = $response->get_error_message();
+			return $response->get_error_message();
 		} else {
-			$response_body = wp_remote_retrieve_body($response);
+			return wp_remote_retrieve_body($response);
 		}
 	}
 }
