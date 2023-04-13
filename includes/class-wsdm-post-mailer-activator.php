@@ -32,8 +32,8 @@ class Wsdm_Post_Mailer_Activator
 	 */
 	public static function activate()
 	{
-		// if (!wp_next_scheduled('wsdm_daily_post_email_cron')) {
-		// 	wp_schedule_event(time(), 'daily', 'wsdm_daily_post_email_cron');
-		// }
+		if (!wp_next_scheduled('wsdm_daily_post_email_cron')) {
+			wp_schedule_event(time(), 'daily', 'wsdm_daily_post_email_cron');
+		}
 	}
 }
