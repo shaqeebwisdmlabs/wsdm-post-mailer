@@ -131,7 +131,7 @@ class Wsdm_Post_Mailer_Admin
 			$message .= 'Meta Title: ' . get_post_meta(get_the_ID(), '_yoast_wpseo_title', true) . "\n";
 			$message .= 'Meta Description: ' . get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true) . "\n";
 			$message .= 'Meta Keywords: ' . get_post_meta(get_the_ID(), '_yoast_wpseo_focuskw', true) . "\n";
-			$message .= 'Page Speed: ' . $this->wsdm_page_speed_score(get_permalink()) . "\n";
+			$message .= 'Page Load Time: ' . $this->wsdm_page_speed_score(get_permalink()) . "\n";
 		}
 
 		// send email
@@ -144,12 +144,10 @@ class Wsdm_Post_Mailer_Admin
 		$api_url = "http://www.webpagetest.org/runtest.php?url=" . $page_url . "&runs=1&f=xml&k=" . $api_key;
 
 		// API request
-		$response = wp_remote_get($api_url);
-
-		if (is_wp_error($response)) {
-			return $response->get_error_message();
-		} else {
-			return wp_remote_retrieve_body($response);
-		}
+		$response = simplexml_load_file($api_url);
+		$response = simplexml_load_file($api_url);
+		$test_result = simplexml_load_file($response->data->xmlUrl);
+		$load_time = (float) ($test_result->data->average->firstView->loadTime) / 1000;
+		return $load_time;
 	}
 }

@@ -159,8 +159,8 @@ class Wsdm_Post_Mailer
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
+		// schedule cron job
 		$this->loader->add_action('wsdm_daily_post_email_cron', $plugin_admin, 'wsdm_daily_post_email');
-		// $this->loader->add_action('init', $plugin_admin, 'wsdm_daily_post_email');
 	}
 
 	/**
