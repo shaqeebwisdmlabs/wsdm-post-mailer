@@ -145,7 +145,6 @@ class Wsdm_Post_Mailer_Admin
 
 		// API request
 		$response = simplexml_load_file($api_url);
-		$response = simplexml_load_file($api_url);
 		$test_result = simplexml_load_file($response->data->xmlUrl);
 		$load_time = (float) ($test_result->data->average->firstView->loadTime) / 1000;
 		return $load_time;
